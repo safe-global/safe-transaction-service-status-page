@@ -34,14 +34,18 @@ function ServiceStatus(props) {
   const [apiResult, setApiResult] = useState({})
 
   useEffect(() => {
+    const abortController = new AbortController()
     async function getApiData() {
-      const response = await fetch(props.url + "/api/v1/about/indexing/")
+      const response = await fetch(props.url + "/api/v1/about/indexing/", {signal: abortController.signal})
       const data = await response.json()
       setApiResult(data)
     }
     getApiData()
     const interval = setInterval(getApiData, 1000 * 30)
-    return () => clearInterval(interval);
+    return () => {
+      abortController.abort()
+      clearInterval(interval);
+    }
   }, [props.url]);
 
   const greenStyle = {backgroundColor: '#8bc34a'}
