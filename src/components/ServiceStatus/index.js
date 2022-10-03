@@ -5,7 +5,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
 
-function ServiceStatus(props) {
+export default function ServiceStatus(props) {
     const [apiResult, setApiResult] = useState({})
 
     useEffect(() => {
@@ -37,5 +37,3 @@ function ServiceStatus(props) {
       </TableRow>
     );
   }
-
-export default ServiceStatus
