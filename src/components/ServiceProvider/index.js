@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,21 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 
 import ServiceStatus from "../ServiceStatus";
-
-const SERVICES = {
-  ARBITRUM: "https://safe-transaction.arbitrum.gnosis.io",
-  AURORA: "https://safe-transaction.aurora.gnosis.io",
-  AVALANCHE: "https://safe-transaction.avalanche.gnosis.io",
-  BINANCE: "https://safe-transaction.bsc.gnosis.io",
-  EWC: "https://safe-transaction.ewc.gnosis.io",
-  GNOSISCHAIN: "https://safe-transaction.xdai.gnosis.io",
-  GOERLI: "https://safe-transaction.goerli.gnosis.io",
-  MAINNET: "https://safe-transaction.mainnet.gnosis.io",
-  OPTIMISM: "https://safe-transaction.optimism.gnosis.io",
-  POLYGON: "https://safe-transaction.polygon.gnosis.io",
-  RINKEBY: "https://safe-transaction.rinkeby.gnosis.io",
-  VOLTA: "https://safe-transaction.volta.gnosis.io",
-};
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,6 +22,27 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function ServiceProvider(props) {
+  const [services, setServices] = useState({});
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    async function getApiData() {
+      const response = await fetch(props.configServiceUrl + "/api/v1/chains/", {
+        signal: abortController.signal,
+      });
+      const data = await response.json();
+      const chainNameWithUrl = data['results'].reduce(function(map, obj) {
+        map[obj.chainName] = obj.transactionService;
+        return map;
+    }, {});
+      setServices(chainNameWithUrl);
+    }
+    getApiData();
+    return () => {
+      abortController.abort();
+    };
+  }, [props.configServiceUrl]);
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -49,7 +57,7 @@ export default function ServiceProvider(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.entries(SERVICES).map(([key, value]) => (
+          {Object.entries(services).map(([key, value]) => (
             <ServiceStatus key={key} network={key} url={value}></ServiceStatus>
           ))}
         </TableBody>

@@ -9,6 +9,7 @@ import ResponsiveAppBar from "./components/ResponsiveAppBar";
 const theme = createTheme();
 
 function App() {
+  const configServiceUrl = process.env.REACT_APP_CONFIG_SERVICE_URL;
   return (
     <ThemeProvider theme={theme}>
       <ResponsiveAppBar />
@@ -21,7 +22,7 @@ function App() {
           p: 2,
         }}
       >
-        <ServiceProvider />
+        <ServiceProvider configServiceUrl={configServiceUrl}/>
       </Container>
     </ThemeProvider>
   );
