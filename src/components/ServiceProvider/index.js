@@ -11,6 +11,7 @@ import ServiceStatus from "../ServiceStatus";
 
 const SERVICES = {
   ARBITRUM: "https://safe-transaction.arbitrum.gnosis.io",
+  AURORA: "https://safe-transaction.aurora.gnosis.io",
   AVALANCHE: "https://safe-transaction.avalanche.gnosis.io",
   BINANCE: "https://safe-transaction.bsc.gnosis.io",
   EWC: "https://safe-transaction.ewc.gnosis.io",
