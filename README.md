@@ -1,6 +1,6 @@
 [![Github actions](https://github.com/Uxio0/safe-react-status/actions/workflows/node.yml/badge.svg)](https://github.com/Uxio0/safe-react-status/actions/workflows/node.yml)
 # Safe React Status
-Simple app to show indexing status for Safe Transaction Services.
+Show indexing status for Safe Transaction Services.
 
 # Getting Started with Create React App
 
