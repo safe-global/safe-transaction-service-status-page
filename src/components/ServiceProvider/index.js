@@ -27,15 +27,22 @@ export default function ServiceProvider(props) {
   useEffect(() => {
     const abortController = new AbortController();
     async function getApiData() {
-      const response = await fetch(props.configServiceUrl + "/api/v1/chains/", {
-        signal: abortController.signal,
-      });
-      const data = await response.json();
-      const chainNameWithUrl = data["results"].reduce(function (map, obj) {
-        map[obj.chainName] = obj.transactionService;
-        return map;
-      }, {});
-      setServices(chainNameWithUrl);
+      try {
+        const response = await fetch(
+          props.configServiceUrl + "/api/v1/chains/",
+          {
+            signal: abortController.signal,
+          }
+        );
+        const data = await response.json();
+        const chainNameWithUrl = data["results"].reduce(function (map, obj) {
+          map[obj.chainName] = obj.transactionService;
+          return map;
+        }, {});
+        setServices(chainNameWithUrl);
+      } catch (exception) {
+        setServices({});
+      }
     }
     getApiData();
     return () => {
