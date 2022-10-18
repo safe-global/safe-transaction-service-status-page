@@ -31,10 +31,10 @@ export default function ServiceProvider(props) {
         signal: abortController.signal,
       });
       const data = await response.json();
-      const chainNameWithUrl = data['results'].reduce(function(map, obj) {
+      const chainNameWithUrl = data["results"].reduce(function (map, obj) {
         map[obj.chainName] = obj.transactionService;
         return map;
-    }, {});
+      }, {});
       setServices(chainNameWithUrl);
     }
     getApiData();
