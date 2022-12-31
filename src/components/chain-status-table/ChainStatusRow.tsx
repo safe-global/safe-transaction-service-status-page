@@ -11,6 +11,7 @@ import ChainNameLabel from "src/components/chain-name-label/ChainNameLabel";
 import ChainLogo from "src/components/chain-logo/ChainLogo";
 import BlockLabel from "src/components/block-label/BlockLabel";
 import SyncedLabel from "src/components/synced-label/SyncedLabel";
+import memoizedGetBlock from "src/utils/memoizedGetBlock";
 
 const POLLING_TIME = 5_000; // 5 secs
 
@@ -38,16 +39,16 @@ function ChainStatusRow({ chain }: { chain: chain }) {
     return new ethers.providers.JsonRpcProvider(rpcEndpoint);
   }, [chain]);
 
-  // function to fetch the block info from the Rpc
+  // function to fetch the block info from the Rpc (memoized version)
   const getBlockInfo = useCallback(
     async (blockNumber: number) => {
-      // TODO: Add improvement here: memoized getBlock function per chainName
+      const { chainId } = chain;
 
-      const block = await provider.getBlock(blockNumber);
+      const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
 
-      return block;
+      return blockInfo;
     },
-    [provider]
+    [provider, chain]
   );
 
   return (
