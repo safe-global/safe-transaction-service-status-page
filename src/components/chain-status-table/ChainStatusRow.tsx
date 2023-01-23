@@ -34,7 +34,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
 
   // memoized eth provider, used to call getBlock info
   const provider = useMemo(() => {
-    const rpcEndpoint = getRpcUri(chain.rpcUri);
+    const rpcEndpoint = getRpcUri(chain);
 
     return new ethers.providers.JsonRpcProvider(rpcEndpoint);
   }, [chain]);

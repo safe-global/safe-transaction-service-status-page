@@ -17,7 +17,7 @@ type chain = {
     api: string;
     txHash: string;
   };
-  rpcUri: {
+  publicRpcUri: {
     authentication: string;
     value: string;
   };
