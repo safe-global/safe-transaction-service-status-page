@@ -2,7 +2,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 type SyncedLabelPros = {
@@ -11,9 +10,6 @@ type SyncedLabelPros = {
   currentBlockNumber?: number;
   lastBlockNumber?: number;
 };
-
-const WARNING_BLOCK_THRESHOLD = 10;
-const ERROR_BLOCK_THRESHOLD = 50;
 
 function SyncedLabel({
   isLoading,
@@ -44,13 +40,7 @@ function SyncedLabel({
         <>
           {/* Icon synced indicator */}
           {isSynced ? (
-            <>
-              {blocksBehind < WARNING_BLOCK_THRESHOLD ? (
-                <CheckCircleRoundedIcon color={"success"} />
-              ) : (
-                <WarningRoundedIcon color={"warning"} />
-              )}
-            </>
+            <CheckCircleRoundedIcon color={"success"} />
           ) : (
             <CancelRoundedIcon color="error" />
           )}
@@ -64,7 +54,7 @@ function SyncedLabel({
               ) : (
                 <Typography
                   variant="caption"
-                  color={getLabelColor(Number(blocksBehind), isSynced || false)}
+                  color={isSynced ? "success.light" : "error.main"}
                 >
                   {`${formatedBlocksBehind} Block${
                     blocksBehind > 1 ? "s" : ""
@@ -80,24 +70,3 @@ function SyncedLabel({
 }
 
 export default SyncedLabel;
-
-// based on Blocks behind we change the label color
-function getLabelColor(blocksBehind: number, isSynced: boolean): string {
-  if (!isSynced) {
-    return "error.main";
-  }
-
-  if (blocksBehind < WARNING_BLOCK_THRESHOLD) {
-    return "success.light";
-  }
-
-  if (blocksBehind < WARNING_BLOCK_THRESHOLD + 10) {
-    return "warning.light";
-  }
-
-  if (blocksBehind < ERROR_BLOCK_THRESHOLD) {
-    return "warning.main";
-  }
-
-  return "warning.dark";
-}
