@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { RawAxiosRequestConfig } from "axios";
 
 import chain from "src/models/chain";
 
@@ -6,7 +6,7 @@ const CHAINS_PATHNAME = "/api/v1/chains/";
 
 async function getChains(
   configServiceBaseUrl: string,
-  options?: AxiosRequestConfig
+  options?: RawAxiosRequestConfig
 ): Promise<chain[]> {
   const endpoint = `${configServiceBaseUrl}${CHAINS_PATHNAME}`;
 
