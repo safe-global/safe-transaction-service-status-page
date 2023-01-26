@@ -7,13 +7,13 @@ import useTheme from "src/hooks/useTheme";
 import Header from "src/components/header/Header";
 import ConfigServiceUrlSelector from "src/components/config-service-url-selector/ConfigServiceUrlSelector";
 import ChainStatusTable from "src/components/chain-status-table/ChainStatusTable";
-import { CONFIG_SERVICE_PRODUCTION_OPTION } from "src/constants/configService";
 
-// production config service url as initial value
-const prodUrl = CONFIG_SERVICE_PRODUCTION_OPTION.value;
+const { REACT_APP_CONFIG_SERVICE_URL } = process.env;
 
 function App() {
-  const [configServiceUrl, setConfigServiceUrl] = useState<string>(prodUrl);
+  const [configServiceUrl, setConfigServiceUrl] = useState<string>(
+    REACT_APP_CONFIG_SERVICE_URL || ""
+  );
 
   const { theme, switchThemeMode, isDarkTheme } = useTheme();
 

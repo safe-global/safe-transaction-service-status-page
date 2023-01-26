@@ -6,7 +6,14 @@ import TextField from "@mui/material/TextField";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-import { CONFIG_SERVICE_OPTIONS } from "src/constants/configService";
+const { REACT_APP_CONFIG_SERVICE_URL } = process.env;
+
+const defaultOptions = [
+  {
+    label: "Config Service URL",
+    value: REACT_APP_CONFIG_SERVICE_URL || "",
+  },
+];
 
 type ConfigServiceUrlSelectorProps = {
   configServiceUrl?: string;
@@ -63,7 +70,7 @@ function ConfigServiceUrlSelector({
         getOptionLabel={(option) =>
           typeof option === "string" ? option : option.value
         }
-        options={CONFIG_SERVICE_OPTIONS}
+        options={defaultOptions}
         renderOption={(props, option) => (
           <ListItem {...props}>
             <ListItemText primary={option.label} secondary={option.value} />

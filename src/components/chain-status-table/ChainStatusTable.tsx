@@ -6,6 +6,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import getChains from "src/api/getChains";
 import isValidUrl from "src/utils/isValidUrl";
@@ -35,8 +38,8 @@ function ChainStatusTable({ configServiceUrl }: StatusTableProps) {
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label={"service status table"}>
-        <caption>transaction service status for all chains</caption>
+      <Table aria-label={"transaction service status table"}>
+        <caption>Transaction service status for all chains</caption>
         <TableHead>
           <TableRow>
             <TableCell align="center">Logo</TableCell>
@@ -44,8 +47,30 @@ function ChainStatusTable({ configServiceUrl }: StatusTableProps) {
             <TableCell align="center">Current Block</TableCell>
             <TableCell align="center">ERC20 Block</TableCell>
             <TableCell align="center">MasterCopies Block</TableCell>
-            <TableCell align="center">ERC20 Synced</TableCell>
-            <TableCell align="center">MasterCopies Synced</TableCell>
+            <TableCell align="center">
+              <Tooltip title="ERC20 indexer takes care of tracking ERC20 & ERC721 token transfers">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={0.5}
+                  whiteSpace="nowrap"
+                >
+                  <InfoOutlinedIcon fontSize="small" /> ERC20 Synced
+                </Box>
+              </Tooltip>
+            </TableCell>
+            <TableCell align="center">
+              <Tooltip title="MasterCopies indexer takes care of anything related with the Safe (transactions executed, owners changed...)">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={0.5}
+                  whiteSpace="nowrap"
+                >
+                  <InfoOutlinedIcon fontSize="small" /> MasterCopies Synced
+                </Box>
+              </Tooltip>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
