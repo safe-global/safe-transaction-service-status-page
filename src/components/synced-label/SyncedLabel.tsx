@@ -55,6 +55,7 @@ function SyncedLabel({
                 <Typography
                   variant="caption"
                   color={isSynced ? "success.light" : "error.main"}
+                  sx={{ whiteSpace: "nowrap" }}
                 >
                   {`${formatedBlocksBehind} Block${
                     blocksBehind > 1 ? "s" : ""
