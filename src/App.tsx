@@ -8,7 +8,8 @@ import Header from "src/components/header/Header";
 import ConfigServiceUrlSelector from "src/components/config-service-url-selector/ConfigServiceUrlSelector";
 import ChainStatusTable from "src/components/chain-status-table/ChainStatusTable";
 
-const { REACT_APP_CONFIG_SERVICE_URL } = process.env;
+const { REACT_APP_CONFIG_SERVICE_URL, REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR } =
+  process.env;
 
 function App() {
   const [configServiceUrl, setConfigServiceUrl] = useState<string>(
@@ -24,12 +25,18 @@ function App() {
       {/* App header */}
       <Header isDarkTheme={isDarkTheme} switchThemeMode={switchThemeMode} />
 
-      <Container maxWidth="lg" component="main" sx={{ marginBottom: "32px" }}>
+      <Container
+        maxWidth="lg"
+        component="main"
+        sx={{ marginBottom: "36px", marginTop: "42px" }}
+      >
         {/* Config service selector */}
-        <ConfigServiceUrlSelector
-          configServiceUrl={configServiceUrl}
-          setConfigServiceUrl={setConfigServiceUrl}
-        />
+        {showConfigServiceSelector && (
+          <ConfigServiceUrlSelector
+            configServiceUrl={configServiceUrl}
+            setConfigServiceUrl={setConfigServiceUrl}
+          />
+        )}
 
         {/* Chain status table */}
         <ChainStatusTable configServiceUrl={configServiceUrl} />
@@ -39,3 +46,6 @@ function App() {
 }
 
 export default App;
+
+const showConfigServiceSelector =
+  REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR === "true";
