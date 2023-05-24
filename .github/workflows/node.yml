@@ -46,8 +46,19 @@ jobs:
         with:
           node-version: 18.x
           cache: 'yarn'
-      - name: Build React App
-        run: yarn install && yarn build
+      - run: yarn install
+      - name: Build Staging React App
+        if: github.ref == 'refs/heads/main'
+        run: yarn build
+        env:
+          REACT_APP_CONFIG_SERVICE_URL: "https://safe-config.staging.5afe.dev"
+          REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR: "true"
+      - name: Build Production React App
+        if: (github.event_name == 'release' && github.event.action == 'released')
+        run: yarn build
+        env:
+          REACT_APP_CONFIG_SERVICE_URL: "https://safe-config.safe.global"
+          REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR: "false"
       - name: Deploy to Staging S3 bucket
         if: github.ref == 'refs/heads/main'
         run: aws s3 sync ./build/ "s3://$BUCKET_NAME/current" --delete
