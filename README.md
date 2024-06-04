@@ -4,7 +4,7 @@
 [![Github actions](https://github.com/safe-global/safe-transaction-service-status-page/actions/workflows/node.yml/badge.svg)](https://github.com/safe-global/safe-transaction-service-status-page/actions/workflows/node.yml)
 
 Show indexing status for Safe Transaction Services.
-
+![image](https://github.com/safe-global/safe-transaction-service-status-page/assets/6909403/0c0a4f6f-961e-4107-bd1d-50f6742866b6)
 
 ## Install
 
