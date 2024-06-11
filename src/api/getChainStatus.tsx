@@ -6,7 +6,7 @@ const CHAIN_STATUS_PATHNAME = "/api/v1/about/indexing/";
 
 async function getChainStatus(
   transactionServiceBaseUrl: string,
-  options?: RawAxiosRequestConfig
+  options?: RawAxiosRequestConfig,
 ): Promise<chainStatus> {
   const endpoint = `${transactionServiceBaseUrl}${CHAIN_STATUS_PATHNAME}`;
 

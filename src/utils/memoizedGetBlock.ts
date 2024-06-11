@@ -18,7 +18,7 @@ const THRESHOLD_CLEAN_CACHE_TIME = 20 * 60 * 1000; // purge block cache each 20 
 async function memoizedGetBlock(
   blockNumber: number,
   provider: ethers.providers.JsonRpcProvider,
-  chainId: string
+  chainId: string,
 ): returnBlockInfoType {
   // we clean the cache each 20 mins
   if (Date.now() > lastTimeCleaned + THRESHOLD_CLEAN_CACHE_TIME) {

@@ -29,7 +29,7 @@ function BlockLabel({
   // we build the block href from the tx template
   const blockExplorerHref = getBlockExplorerHref(
     blockExplorerUriTemplate.txHash,
-    blockNumber
+    blockNumber,
   );
 
   // fetch block timestamp from getBlock

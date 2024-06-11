@@ -43,7 +43,7 @@ const getTheme = (themeMode: PaletteMode): Theme => {
           },
         },
       },
-    })
+    }),
   );
 };
 

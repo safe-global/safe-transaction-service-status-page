@@ -47,7 +47,7 @@ function ConfigServiceUrlSelector({
         value={configServiceUrl}
         onChange={(
           event: SyntheticEvent,
-          option: string | optionsType | null
+          option: string | optionsType | null,
         ) => {
           const isStringValue = typeof option === "string";
           const newValue = isStringValue ? option : option?.value;

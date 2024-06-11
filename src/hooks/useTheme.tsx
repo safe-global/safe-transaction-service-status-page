@@ -17,7 +17,7 @@ const STORAGE_KEY_THEME_MODE = "THEME_MODE_REACT_SERVICE_STATUS_KEY";
 function useTheme(): useThemeReturnValue {
   const [themeMode, setThemeMode] = useLocalStorageState<PaletteMode>(
     STORAGE_KEY_THEME_MODE, // key
-    DARK_THEME // initial value
+    DARK_THEME, // initial value
   );
 
   const switchThemeMode = useCallback(() => {

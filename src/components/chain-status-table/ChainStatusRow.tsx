@@ -25,7 +25,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
         signal,
       });
     },
-    [chain]
+    [chain],
   );
 
   // fetch chain status with a polling (5 secs)
@@ -48,7 +48,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
 
       return blockInfo;
     },
-    [provider, chain]
+    [provider, chain],
   );
 
   return (
