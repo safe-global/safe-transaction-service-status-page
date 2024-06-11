@@ -32,6 +32,8 @@ jobs:
   release:
     if: github.ref == 'refs/heads/main' || (github.event_name == 'release' && github.event.action == 'released')
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # To use OIDC role authentication in aws-actions/configure-aws-credentials
     needs: [build]
     steps:
       - uses: actions/checkout@v4
