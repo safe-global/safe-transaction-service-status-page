@@ -53,7 +53,7 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
               {/* Help Docs Link */}
               <NavListItem>
                 <Link
-                  href="https://help.gnosis-safe.io/en/"
+                  href="https://help.safe.global/"
                   color="inherit"
                   underline="hover"
                   target="_blank"
@@ -65,7 +65,7 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
               {/* Developes Docs Link */}
               <NavListItem>
                 <Link
-                  href="https://docs.gnosis-safe.io/"
+                  href="https://docs.safe.global/"
                   color="inherit"
                   underline="hover"
                   target="_blank"
