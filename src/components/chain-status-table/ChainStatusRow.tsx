@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { ethers } from "ethers";
+import { Chain, createPublicClient, http } from "viem";
 
 import getChainStatus from "src/api/getChainStatus";
 import getRpcUri from "src/utils/getRpcUri";
@@ -36,16 +36,17 @@ function ChainStatusRow({ chain }: { chain: chain }) {
   const provider = useMemo(() => {
     const rpcEndpoint = getRpcUri(chain);
 
-    return new ethers.providers.JsonRpcProvider(rpcEndpoint);
+    return createPublicClient({
+      chain: {} as Chain,
+      transport: http(rpcEndpoint),
+    });
   }, [chain]);
 
   // function to fetch the block info from the Rpc (memoized version)
   const getBlockInfo = useCallback(
     async (blockNumber: number) => {
       const { chainId } = chain;
-
       const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
-
       return blockInfo;
     },
     [provider, chain],

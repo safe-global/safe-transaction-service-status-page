@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
+import { Block, PublicClient } from "viem";
 
-type returnBlockInfoType = Promise<ethers.providers.Block>;
+type returnBlockInfoType = Promise<Block>;
 
 // key: blockNumber, value: blockInfoType
 type blockCache = Record<string, returnBlockInfoType>;
@@ -17,7 +17,7 @@ const THRESHOLD_CLEAN_CACHE_TIME = 20 * 60 * 1000; // purge block cache each 20 
 // memoized version of getBlock to avoid multiple calls to fetch the same block info
 async function memoizedGetBlock(
   blockNumber: number,
-  provider: ethers.providers.JsonRpcProvider,
+  provider: PublicClient,
   chainId: string,
 ): returnBlockInfoType {
   // we clean the cache each 20 mins
@@ -31,12 +31,16 @@ async function memoizedGetBlock(
   const chainCache = cache[chainId];
 
   // we use the cached block value or we call to getBlock and update the chache
-  const blockInfo = chainCache[blockNumber] || provider.getBlock(blockNumber);
+  const blockInfo =
+    chainCache[blockNumber] ||
+    provider.getBlock({ blockNumber: BigInt(blockNumber) });
   chainCache[blockNumber] = blockInfo;
 
   // if the promise is rejected we retry to call getBlock again
   chainCache[blockNumber].catch(() => {
-    chainCache[blockNumber] = provider.getBlock(blockNumber);
+    chainCache[blockNumber] = provider.getBlock({
+      blockNumber: BigInt(blockNumber),
+    });
   });
 
   return chainCache[blockNumber];
