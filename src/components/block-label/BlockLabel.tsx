@@ -6,17 +6,17 @@ import Link from "@mui/material/Link";
 import ViewInArRoundedIcon from "@mui/icons-material/ViewInArRounded";
 import styled from "@emotion/styled";
 import { Theme } from "@mui/material";
-import { ethers } from "ethers";
 
 import chain from "src/models/chain";
 import { DARK_THEME } from "src/theme/theme";
 import getBlockExplorerHref from "src/utils/getBlockExplorerHref";
 import TimeAgoLabel from "src/components/time-ago-label/TimeAgoLabel";
+import { Block } from "viem";
 
 type BlockLabelProps = {
   blockNumber?: number;
   blockExplorerUriTemplate: chain["blockExplorerUriTemplate"];
-  getBlock: (blockNumber: number) => Promise<ethers.providers.Block>;
+  getBlock: (blockNumber: number) => Promise<Block>;
 };
 
 function BlockLabel({
@@ -37,7 +37,7 @@ function BlockLabel({
     if (blockNumber) {
       getBlock(blockNumber)
         .then(({ timestamp }) => {
-          const blockTimestamp = timestamp * 1_000; // in milliseconds
+          const blockTimestamp = Number(timestamp) * 1_000; // in milliseconds
           setBlockTimestamp(blockTimestamp);
         })
         .catch((error) => {
