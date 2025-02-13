@@ -56,10 +56,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
     <TableRow>
       {/* chain logo */}
       <TableCell align="center">
-        <ChainLogo
-          logoUri={chain.nativeCurrency.logoUri}
-          chainName={chain.chainName}
-        />
+        <ChainLogo logoUri={chain.chainLogoUri} chainName={chain.chainName} />
       </TableCell>
 
       {/* chain name */}
