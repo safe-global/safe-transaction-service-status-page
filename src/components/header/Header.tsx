@@ -124,7 +124,7 @@ const AppLogoHeader = styled("img")`
   }
 `;
 
-const StyledAppTitle: any = styled(Typography)<{
+const StyledAppTitle = styled(Typography)<{
   variant: string;
   component: string;
 }>`

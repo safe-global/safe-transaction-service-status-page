@@ -8,12 +8,12 @@ import Header from "src/components/header/Header";
 import ConfigServiceUrlSelector from "src/components/config-service-url-selector/ConfigServiceUrlSelector";
 import ChainStatusTable from "src/components/chain-status-table/ChainStatusTable";
 
-const { REACT_APP_CONFIG_SERVICE_URL, REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR } =
-  process.env;
+const VITE_CONFIG_SERVICE_URL = import.meta.env.VITE_CONFIG_SERVICE_URL;
+const VITE_SHOW_CONFIG_SERVICE_SELECTOR = import.meta.env.VITE_SHOW_CONFIG_SERVICE_SELECTOR;
 
 function App() {
   const [configServiceUrl, setConfigServiceUrl] = useState<string>(
-    REACT_APP_CONFIG_SERVICE_URL || "",
+    VITE_CONFIG_SERVICE_URL || "",
   );
 
   const { theme, switchThemeMode, isDarkTheme } = useTheme();
@@ -48,4 +48,4 @@ function App() {
 export default App;
 
 const showConfigServiceSelector =
-  REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR === "true";
+  VITE_SHOW_CONFIG_SERVICE_SELECTOR === "true";

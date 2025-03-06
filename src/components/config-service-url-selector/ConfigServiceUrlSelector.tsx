@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
@@ -6,12 +6,12 @@ import TextField from "@mui/material/TextField";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-const { REACT_APP_CONFIG_SERVICE_URL } = process.env;
+const VITE_CONFIG_SERVICE_URL = import.meta.env.VITE_CONFIG_SERVICE_URL;
 
 const defaultOptions = [
   {
     label: "Config Service URL",
-    value: REACT_APP_CONFIG_SERVICE_URL || "",
+    value: VITE_CONFIG_SERVICE_URL || "",
   },
 ];
 
@@ -46,7 +46,7 @@ function ConfigServiceUrlSelector({
         // Config Service value
         value={configServiceUrl}
         onChange={(
-          event: SyntheticEvent,
+          _,
           option: string | optionsType | null,
         ) => {
           const isStringValue = typeof option === "string";
@@ -55,7 +55,7 @@ function ConfigServiceUrlSelector({
         }}
         // input value
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_, newInputValue) => {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => (
