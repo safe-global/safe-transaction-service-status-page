@@ -1,4 +1,5 @@
 # Safe Transaction Service Status Page
+
 ![license](https://img.shields.io/github/license/safe-global/safe-transaction-service-status-page)
 
 [![Github actions](https://github.com/safe-global/safe-transaction-service-status-page/actions/workflows/node.yml/badge.svg)](https://github.com/safe-global/safe-transaction-service-status-page/actions/workflows/node.yml)

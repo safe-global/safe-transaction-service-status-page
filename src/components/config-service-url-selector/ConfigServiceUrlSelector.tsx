@@ -45,10 +45,7 @@ function ConfigServiceUrlSelector({
         freeSolo
         // Config Service value
         value={configServiceUrl}
-        onChange={(
-          _,
-          option: string | optionsType | null,
-        ) => {
+        onChange={(_, option: string | optionsType | null) => {
           const isStringValue = typeof option === "string";
           const newValue = isStringValue ? option : option?.value;
           setConfigServiceUrl(newValue || "");

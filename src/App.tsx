@@ -9,7 +9,8 @@ import ConfigServiceUrlSelector from "src/components/config-service-url-selector
 import ChainStatusTable from "src/components/chain-status-table/ChainStatusTable";
 
 const VITE_CONFIG_SERVICE_URL = import.meta.env.VITE_CONFIG_SERVICE_URL;
-const VITE_SHOW_CONFIG_SERVICE_SELECTOR = import.meta.env.VITE_SHOW_CONFIG_SERVICE_SELECTOR;
+const VITE_SHOW_CONFIG_SERVICE_SELECTOR = import.meta.env
+  .VITE_SHOW_CONFIG_SERVICE_SELECTOR;
 
 function App() {
   const [configServiceUrl, setConfigServiceUrl] = useState<string>(
@@ -47,5 +48,4 @@ function App() {
 
 export default App;
 
-const showConfigServiceSelector =
-  VITE_SHOW_CONFIG_SERVICE_SELECTOR === "true";
+const showConfigServiceSelector = VITE_SHOW_CONFIG_SERVICE_SELECTOR === "true";

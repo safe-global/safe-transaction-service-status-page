@@ -57,8 +57,7 @@ function SyncedLabel({
                   color={isSynced ? "success.light" : "error.main"}
                   sx={{ whiteSpace: "nowrap" }}
                 >
-                  {`${formatedBlocksBehind} Block${Number(blocksBehind) > 1 ? "s" : ""
-                    } behind`}
+                  {`${formatedBlocksBehind} Block${Number(blocksBehind) > 1 ? "s" : ""} behind`}
                 </Typography>
               )}
             </>
