@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install
-      - run: yarn build --if-present
+      - run: yarn build
       - run: npx prettier --check src/
       - run: npx eslint src/
         # - run: yarn ci
