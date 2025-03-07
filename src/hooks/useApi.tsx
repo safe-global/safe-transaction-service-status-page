@@ -22,14 +22,14 @@ function useApi<T>(
         setIsLoading(true);
         const data = await apiCall(abortController.signal);
         setData(data);
-      } catch (exception) {
+      } catch {
         setData(undefined);
       } finally {
         setIsLoading(false);
       }
     }
 
-    let intervalId: NodeJS.Timer;
+    let intervalId: NodeJS.Timeout;
 
     if (pollingTime) {
       intervalId = setInterval(() => {

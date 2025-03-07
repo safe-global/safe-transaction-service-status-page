@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install
-      - run: yarn build --if-present
+      - run: yarn build
       - run: npx prettier --check src/
       - run: npx eslint src/
         # - run: yarn ci
@@ -52,14 +52,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: yarn build
         env:
-          REACT_APP_CONFIG_SERVICE_URL: "https://safe-config.staging.5afe.dev"
-          REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR: "true"
+          VITE_CONFIG_SERVICE_URL: "https://safe-config.staging.5afe.dev"
+          VITE_SHOW_CONFIG_SERVICE_SELECTOR: "true"
       - name: Build Production React App
         if: (github.event_name == 'release' && github.event.action == 'released')
         run: yarn build
         env:
-          REACT_APP_CONFIG_SERVICE_URL: "https://safe-config.safe.global"
-          REACT_APP_SHOW_CONFIG_SERVICE_SELECTOR: "false"
+          VITE_CONFIG_SERVICE_URL: "https://safe-config.safe.global"
+          VITE_SHOW_CONFIG_SERVICE_SELECTOR: "false"
       - name: Deploy to Staging S3 bucket
         if: github.ref == 'refs/heads/main'
         run: aws s3 sync ./build/ "s3://$BUCKET_NAME/current" --delete

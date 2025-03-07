@@ -1,5 +1,6 @@
 type chain = {
   chainName: string;
+  chainLogoUri: string;
   chainId: string;
   theme: {
     backgroundColor: string;

@@ -12,7 +12,7 @@ type useThemeReturnValue = {
   isLightTheme: boolean;
 };
 
-const STORAGE_KEY_THEME_MODE = "THEME_MODE_REACT_SERVICE_STATUS_KEY";
+const STORAGE_KEY_THEME_MODE = "__THEME_MODE_REACT_TX_SERVICE_STATUS_KEY__";
 
 function useTheme(): useThemeReturnValue {
   const [themeMode, setThemeMode] = useLocalStorageState<PaletteMode>(
