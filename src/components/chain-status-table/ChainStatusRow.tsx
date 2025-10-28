@@ -15,17 +15,21 @@ import memoizedGetBlock from "src/utils/memoizedGetBlock";
 
 const POLLING_TIME = 5_000; // 5 secs
 
-function ChainStatusRow({ chain }: { chain: chain }) {
+function ChainStatusRow({
+  chain,
+  clientGatewayUrl,
+}: {
+  chain: chain;
+  clientGatewayUrl: string;
+}) {
   // endpoint to the chain status from the transaction service
   const fetchChainStatus = useCallback(
     async (signal: AbortSignal) => {
-      const transactionServiceUrl = chain.transactionService;
-
-      return getChainStatus(transactionServiceUrl, {
+      return getChainStatus(clientGatewayUrl, Number(chain.chainId), {
         signal,
       });
     },
-    [chain],
+    [clientGatewayUrl, chain.chainId]
   );
 
   // fetch chain status with a polling (5 secs)
@@ -49,7 +53,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
       const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
       return blockInfo;
     },
-    [provider, chain],
+    [provider, chain]
   );
 
   return (

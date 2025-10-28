@@ -16,6 +16,9 @@ const themeOptions: ThemeOptions = {
     },
     mode: DARK_THEME,
   },
+  typography: {
+    fontFamily: '"DM Sans", sans-serif',
+  },
 };
 
 const getTheme = (themeMode: PaletteMode): Theme => {
@@ -43,7 +46,7 @@ const getTheme = (themeMode: PaletteMode): Theme => {
           },
         },
       },
-    }),
+    })
   );
 };
 

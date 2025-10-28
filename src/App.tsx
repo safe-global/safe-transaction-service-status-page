@@ -9,12 +9,13 @@ import ConfigServiceUrlSelector from "src/components/config-service-url-selector
 import ChainStatusTable from "src/components/chain-status-table/ChainStatusTable";
 
 const VITE_CONFIG_SERVICE_URL = import.meta.env.VITE_CONFIG_SERVICE_URL;
+const VITE_CLIENT_GATEWAY_URL = import.meta.env.VITE_CLIENT_GATEWAY_URL;
 const VITE_SHOW_CONFIG_SERVICE_SELECTOR = import.meta.env
   .VITE_SHOW_CONFIG_SERVICE_SELECTOR;
 
 function App() {
   const [configServiceUrl, setConfigServiceUrl] = useState<string>(
-    VITE_CONFIG_SERVICE_URL || "",
+    VITE_CONFIG_SERVICE_URL || ""
   );
 
   const { theme, switchThemeMode, isDarkTheme } = useTheme();
@@ -40,7 +41,10 @@ function App() {
         )}
 
         {/* Chain status table */}
-        <ChainStatusTable configServiceUrl={configServiceUrl} />
+        <ChainStatusTable
+          configServiceUrl={configServiceUrl}
+          clientGatewayUrl={VITE_CLIENT_GATEWAY_URL}
+        />
       </Container>
     </ThemeProvider>
   );
