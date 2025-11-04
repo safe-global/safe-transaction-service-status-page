@@ -8,12 +8,7 @@ async function getChainStatus(
   chain: chain,
   options?: RawAxiosRequestConfig
 ): Promise<chainStatus> {
-  let endpoint = "";
-  if (chain.chainId === "1") {
-    endpoint = `${chain.transactionService}/api/v1/about/indexing`;
-  } else {
-    endpoint = `${clientGatewayUrl}/v1/chains/${chain.chainId}/about/indexing`;
-  }
+  const endpoint = `${clientGatewayUrl}/v1/chains/${chain.chainId}/about/indexing`;
 
   const { data } = await axios.get(endpoint, options);
 

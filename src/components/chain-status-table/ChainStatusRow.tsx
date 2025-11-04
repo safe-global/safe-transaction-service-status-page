@@ -13,7 +13,7 @@ import BlockLabel from "src/components/block-label/BlockLabel";
 import SyncedLabel from "src/components/synced-label/SyncedLabel";
 import memoizedGetBlock from "src/utils/memoizedGetBlock";
 
-const POLLING_TIME = 5_000; // 5 secs
+const POLLING_TIME = 30_000; // 10 secs
 
 function ChainStatusRow({
   chain,

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import PollingManager from "src/utils/pollingManager";
 
 type apiCallParam<T> = (signal: AbortSignal) => Promise<T>;
 
@@ -7,43 +8,60 @@ type useApiHookReturnValue<T> = {
   data?: T;
 };
 
+const pollingManager = new PollingManager();
+
 function useApi<T>(
   apiCall: apiCallParam<T>,
-  pollingTime?: number,
+  pollingTime?: number
 ): useApiHookReturnValue<T> {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T>();
+  const taskIdRef = useRef<string | undefined>(undefined);
+
+  const stableApiCall = useCallback(apiCall, [apiCall]);
 
   useEffect(() => {
-    const abortController = new AbortController();
+    const taskId = `api-task-${Date.now()}-${Math.random()}`;
+    taskIdRef.current = taskId;
 
-    async function performApiCall() {
-      try {
-        setIsLoading(true);
-        const data = await apiCall(abortController.signal);
-        setData(data);
-      } catch {
-        setData(undefined);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+    const onSuccess = (result: T) => {
+      setData(result);
+      setIsLoading(false);
+    };
 
-    let intervalId: NodeJS.Timeout;
+    const onError = (error: unknown) => {
+      console.warn("API call failed:", error);
+      setData(undefined);
+      setIsLoading(false);
+    };
 
     if (pollingTime) {
-      intervalId = setInterval(() => {
-        performApiCall();
-      }, pollingTime);
+      // Use polling manager for rate-limited polling
+      pollingManager.addTask(
+        taskId,
+        stableApiCall,
+        onSuccess,
+        onError,
+        pollingTime
+      );
+    } else {
+      // For non-polling requests, execute immediately
+      setIsLoading(true);
+      const abortController = new AbortController();
+
+      stableApiCall(abortController.signal).then(onSuccess).catch(onError);
+
+      return () => {
+        abortController.abort();
+      };
     }
 
-    performApiCall();
-
     return () => {
-      abortController.abort();
-      clearInterval(intervalId);
+      if (taskIdRef.current) {
+        pollingManager.removeTask(taskIdRef.current);
+      }
     };
-  }, [apiCall, pollingTime]);
+  }, [stableApiCall, pollingTime]);
 
   return {
     isLoading,
