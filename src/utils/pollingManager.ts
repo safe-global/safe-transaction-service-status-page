@@ -69,7 +69,7 @@ class PollingManager {
     apiCall: (signal: AbortSignal) => Promise<T>,
     onSuccess: (data: T) => void,
     onError: (error: unknown) => void,
-    pollingInterval: number
+    pollingInterval: number,
   ): void {
     // Remove existing task if it exists
     this.removeTask(id);

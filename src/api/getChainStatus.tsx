@@ -6,7 +6,7 @@ import chainStatus from "src/models/chainStatus";
 async function getChainStatus(
   clientGatewayUrl: string,
   chain: chain,
-  options?: RawAxiosRequestConfig
+  options?: RawAxiosRequestConfig,
 ): Promise<chainStatus> {
   const endpoint = `${clientGatewayUrl}/v1/chains/${chain.chainId}/about/indexing`;
 

@@ -29,7 +29,7 @@ function ChainStatusRow({
         signal,
       });
     },
-    [clientGatewayUrl, chain]
+    [clientGatewayUrl, chain],
   );
 
   // fetch chain status with a polling (5 secs)
@@ -53,7 +53,7 @@ function ChainStatusRow({
       const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
       return blockInfo;
     },
-    [provider, chain]
+    [provider, chain],
   );
 
   return (
