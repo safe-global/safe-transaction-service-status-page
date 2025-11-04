@@ -25,11 +25,11 @@ function ChainStatusRow({
   // endpoint to the chain status from the transaction service
   const fetchChainStatus = useCallback(
     async (signal: AbortSignal) => {
-      return getChainStatus(clientGatewayUrl, Number(chain.chainId), {
+      return getChainStatus(clientGatewayUrl, chain, {
         signal,
       });
     },
-    [clientGatewayUrl, chain.chainId]
+    [clientGatewayUrl, chain]
   );
 
   // fetch chain status with a polling (5 secs)
