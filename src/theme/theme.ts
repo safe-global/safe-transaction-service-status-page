@@ -12,7 +12,7 @@ export const LIGHT_THEME: PaletteMode = "light";
 const themeOptions: ThemeOptions = {
   palette: {
     primary: {
-      main: "#2E3B55",
+      main: "#121212",
     },
     mode: DARK_THEME,
   },
