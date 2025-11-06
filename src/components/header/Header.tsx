@@ -25,11 +25,6 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
           {/* App Logo */}
           <AppLogoHeader id="app-logo-header" src={safeLogo} alt="app logo" />
 
-          {/* App Title */}
-          <StyledAppTitle variant="h6" component="h1">
-            Safe Tx Service Status
-          </StyledAppTitle>
-
           {/* Navigation links */}
           <Box
             flexGrow={1}
@@ -109,32 +104,9 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
 export default Header;
 
 const AppLogoHeader = styled("img")`
-  height: 40px;
+  height: 25px;
   pointer-events: none;
-
-  animation: app-logo-spin infinite 20s linear;
-
-  @keyframes app-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const StyledAppTitle = styled(Typography)<{
-  variant: string;
-  component: string;
-}>`
-  font-family: monospace;
-  margin: 0 12px;
-  letter-spacing: 0.3rem;
-  font-weight: 700;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  filter: invert(1) brightness(1);
 `;
 
 const NavList = styled("ul")`

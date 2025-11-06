@@ -13,19 +13,23 @@ import BlockLabel from "src/components/block-label/BlockLabel";
 import SyncedLabel from "src/components/synced-label/SyncedLabel";
 import memoizedGetBlock from "src/utils/memoizedGetBlock";
 
-const POLLING_TIME = 5_000; // 5 secs
+const POLLING_TIME = 60_000; // 60 secs
 
-function ChainStatusRow({ chain }: { chain: chain }) {
+function ChainStatusRow({
+  chain,
+  clientGatewayUrl,
+}: {
+  chain: chain;
+  clientGatewayUrl: string;
+}) {
   // endpoint to the chain status from the transaction service
   const fetchChainStatus = useCallback(
     async (signal: AbortSignal) => {
-      const transactionServiceUrl = chain.transactionService;
-
-      return getChainStatus(transactionServiceUrl, {
+      return getChainStatus(clientGatewayUrl, chain, {
         signal,
       });
     },
-    [chain],
+    [clientGatewayUrl, chain],
   );
 
   // fetch chain status with a polling (5 secs)
