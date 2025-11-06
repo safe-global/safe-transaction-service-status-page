@@ -32,7 +32,7 @@ class PollingManager {
 
     document.addEventListener(
       "visibilitychange",
-      this.visibilityChangeListener
+      this.visibilityChangeListener,
     );
   }
 
@@ -118,7 +118,7 @@ class PollingManager {
     apiCall: (signal: AbortSignal) => Promise<T>,
     onSuccess: (data: T) => void,
     onError: (error: unknown) => void,
-    pollingInterval: number
+    pollingInterval: number,
   ): void {
     // Remove existing task if it exists
     this.removeTask(id);
@@ -157,7 +157,7 @@ class PollingManager {
     if (this.visibilityChangeListener) {
       document.removeEventListener(
         "visibilitychange",
-        this.visibilityChangeListener
+        this.visibilityChangeListener,
       );
       this.visibilityChangeListener = null;
     }
