@@ -37,12 +37,10 @@ class PollingManager {
   }
 
   private pause(): void {
-    console.log("Polling paused - tab is not visible");
     this.isPaused = true;
   }
 
   private resume(): void {
-    console.log("Polling resumed - tab is visible again");
     this.isPaused = false;
 
     // Reset last executed times to allow immediate execution when resuming
