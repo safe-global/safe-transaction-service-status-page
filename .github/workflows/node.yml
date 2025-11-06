@@ -53,13 +53,13 @@ jobs:
         run: yarn build
         env:
           VITE_CONFIG_SERVICE_URL: "https://safe-config.staging.5afe.dev"
-          VITE_SHOW_CONFIG_SERVICE_SELECTOR: "true"
+          VITE_CLIENT_GATEWAY_URL: "https://safe-client.staging.5afe.dev"
       - name: Build Production React App
         if: (github.event_name == 'release' && github.event.action == 'released')
         run: yarn build
         env:
           VITE_CONFIG_SERVICE_URL: "https://safe-config.safe.global"
-          VITE_SHOW_CONFIG_SERVICE_SELECTOR: "false"
+          VITE_CLIENT_GATEWAY_URL: "https://safe-client.safe.global"
       - name: Deploy to Staging S3 bucket
         if: github.ref == 'refs/heads/main'
         run: aws s3 sync ./build/ "s3://$BUCKET_NAME/current" --delete
