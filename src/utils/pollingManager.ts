@@ -11,11 +11,57 @@ type PollingTask<T = unknown> = {
 class PollingManager {
   private tasks: Map<string, PollingTask<unknown>> = new Map();
   private isRunning = false;
+  private isPaused = false;
   private maxRequestsPerSecond = 5;
   private minInterval = 1000 / this.maxRequestsPerSecond; // 200ms minimum between requests
   private lastRequestTime = 0;
+  private visibilityChangeListener: (() => void) | null = null;
+
+  constructor() {
+    this.setupVisibilityChangeListener();
+  }
+
+  private setupVisibilityChangeListener(): void {
+    this.visibilityChangeListener = () => {
+      if (document.hidden) {
+        this.pause();
+      } else {
+        this.resume();
+      }
+    };
+
+    document.addEventListener(
+      "visibilitychange",
+      this.visibilityChangeListener
+    );
+  }
+
+  private pause(): void {
+    console.log("Polling paused - tab is not visible");
+    this.isPaused = true;
+  }
+
+  private resume(): void {
+    console.log("Polling resumed - tab is visible again");
+    this.isPaused = false;
+
+    // Reset last executed times to allow immediate execution when resuming
+    for (const task of this.tasks.values()) {
+      task.lastExecuted = 0;
+    }
+
+    // Restart polling loop if we have tasks but aren't running
+    if (this.tasks.size > 0 && !this.isRunning) {
+      this.isRunning = true;
+      this.runPollingLoop();
+    }
+  }
 
   private async executeNextTask(): Promise<void> {
+    if (this.isPaused) {
+      return;
+    }
+
     const now = Date.now();
 
     // Find the next task that should be executed
@@ -42,6 +88,10 @@ class PollingManager {
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
 
+    if (this.isPaused) {
+      return;
+    }
+
     // Execute the task
     try {
       this.lastRequestTime = Date.now();
@@ -58,8 +108,9 @@ class PollingManager {
     while (this.isRunning && this.tasks.size > 0) {
       await this.executeNextTask();
 
-      // Small delay to prevent tight loop
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      // Delay to prevent tight loop
+      const delay = this.isPaused ? 1000 : 50;
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
     this.isRunning = false;
   }
@@ -69,7 +120,7 @@ class PollingManager {
     apiCall: (signal: AbortSignal) => Promise<T>,
     onSuccess: (data: T) => void,
     onError: (error: unknown) => void,
-    pollingInterval: number,
+    pollingInterval: number
   ): void {
     // Remove existing task if it exists
     this.removeTask(id);
@@ -103,10 +154,32 @@ class PollingManager {
 
   stop(): void {
     this.isRunning = false;
+    this.isPaused = false;
+
+    if (this.visibilityChangeListener) {
+      document.removeEventListener(
+        "visibilitychange",
+        this.visibilityChangeListener
+      );
+      this.visibilityChangeListener = null;
+    }
+
     for (const task of this.tasks.values()) {
       task.abortController.abort();
     }
     this.tasks.clear();
+  }
+
+  public pausePolling(): void {
+    this.pause();
+  }
+
+  public resumePolling(): void {
+    this.resume();
+  }
+
+  public isPausing(): boolean {
+    return this.isPaused;
   }
 }
 
