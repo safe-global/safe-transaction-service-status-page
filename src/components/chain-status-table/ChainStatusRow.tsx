@@ -32,7 +32,10 @@ function ChainStatusRow({
   );
 
   // fetch chain status with a polling
-  const { isLoading, data } = useApi(fetchChainStatus, CHAIN_STATUS_POLLING_INTERVAL);
+  const { isLoading, data } = useApi(
+    fetchChainStatus,
+    CHAIN_STATUS_POLLING_INTERVAL,
+  );
   const chainStatus = data;
 
   // memoized eth provider, used to call getBlock info
