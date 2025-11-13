@@ -1,3 +1,5 @@
+import { MAX_REQUESTS_PER_SECOND } from "src/config/api";
+
 type PollingTask<T = unknown> = {
   id: string;
   apiCall: (signal: AbortSignal) => Promise<T>;
@@ -12,8 +14,8 @@ class PollingManager {
   private tasks: Map<string, PollingTask<unknown>> = new Map();
   private isRunning = false;
   private isPaused = false;
-  private maxRequestsPerSecond = 5;
-  private minInterval = 1000 / this.maxRequestsPerSecond; // 200ms minimum between requests
+  private maxRequestsPerSecond = MAX_REQUESTS_PER_SECOND;
+  private minInterval = 1000 / this.maxRequestsPerSecond;
   private lastRequestTime = 0;
   private visibilityChangeListener: (() => void) | null = null;
 
