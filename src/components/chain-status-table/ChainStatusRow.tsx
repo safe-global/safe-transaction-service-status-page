@@ -12,8 +12,7 @@ import ChainLogo from "src/components/chain-logo/ChainLogo";
 import BlockLabel from "src/components/block-label/BlockLabel";
 import SyncedLabel from "src/components/synced-label/SyncedLabel";
 import memoizedGetBlock from "src/utils/memoizedGetBlock";
-
-const POLLING_TIME = 60_000; // 60 secs
+import { CHAIN_STATUS_POLLING_INTERVAL } from "src/config/api";
 
 function ChainStatusRow({
   chain,
@@ -32,8 +31,8 @@ function ChainStatusRow({
     [clientGatewayUrl, chain],
   );
 
-  // fetch chain status with a polling (5 secs)
-  const { isLoading, data } = useApi(fetchChainStatus, POLLING_TIME);
+  // fetch chain status with a polling
+  const { isLoading, data } = useApi(fetchChainStatus, CHAIN_STATUS_POLLING_INTERVAL);
   const chainStatus = data;
 
   // memoized eth provider, used to call getBlock info
