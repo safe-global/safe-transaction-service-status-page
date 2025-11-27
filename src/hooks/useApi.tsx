@@ -8,11 +8,9 @@ type useApiHookReturnValue<T> = {
   data?: T;
 };
 
-const pollingManager = new PollingManager();
-
 function useApi<T>(
   apiCall: apiCallParam<T>,
-  pollingTime?: number,
+  pollingTime?: number
 ): useApiHookReturnValue<T> {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T>();
@@ -37,12 +35,12 @@ function useApi<T>(
 
     if (pollingTime) {
       // Use polling manager for rate-limited polling
-      pollingManager.addTask(
+      PollingManager.addTask(
         taskId,
         stableApiCall,
         onSuccess,
         onError,
-        pollingTime,
+        pollingTime
       );
     } else {
       // For non-polling requests, execute immediately
@@ -58,7 +56,7 @@ function useApi<T>(
 
     return () => {
       if (taskIdRef.current) {
-        pollingManager.removeTask(taskIdRef.current);
+        PollingManager.removeTask(taskIdRef.current);
       }
     };
   }, [stableApiCall, pollingTime]);

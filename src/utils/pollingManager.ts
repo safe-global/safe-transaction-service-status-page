@@ -164,4 +164,4 @@ class PollingManager {
   }
 }
 
-export default PollingManager;
+export default new PollingManager();
