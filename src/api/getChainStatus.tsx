@@ -4,11 +4,10 @@ import chainStatus from "src/models/chainStatus";
 import { API_TIMEOUT } from "src/config/api";
 
 async function getChainStatus(
-  clientGatewayUrl: string,
   chain: chain,
-  options?: RawAxiosRequestConfig,
+  options?: RawAxiosRequestConfig
 ): Promise<chainStatus> {
-  const endpoint = `${clientGatewayUrl}/v1/chains/${chain.chainId}/about/indexing`;
+  const endpoint = `${chain.transactionService}/api/v1/about/indexing`;
 
   const { data } = await axios.get(endpoint, {
     ...options,

@@ -14,27 +14,21 @@ import SyncedLabel from "src/components/synced-label/SyncedLabel";
 import memoizedGetBlock from "src/utils/memoizedGetBlock";
 import { CHAIN_STATUS_POLLING_INTERVAL } from "src/config/api";
 
-function ChainStatusRow({
-  chain,
-  clientGatewayUrl,
-}: {
-  chain: chain;
-  clientGatewayUrl: string;
-}) {
+function ChainStatusRow({ chain }: { chain: chain }) {
   // endpoint to the chain status from the transaction service
   const fetchChainStatus = useCallback(
     async (signal: AbortSignal) => {
-      return getChainStatus(clientGatewayUrl, chain, {
+      return getChainStatus(chain, {
         signal,
       });
     },
-    [clientGatewayUrl, chain],
+    [chain]
   );
 
   // fetch chain status with a polling
   const { isLoading, data } = useApi(
     fetchChainStatus,
-    CHAIN_STATUS_POLLING_INTERVAL,
+    CHAIN_STATUS_POLLING_INTERVAL
   );
   const chainStatus = data;
 
@@ -55,7 +49,7 @@ function ChainStatusRow({
       const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
       return blockInfo;
     },
-    [provider, chain],
+    [provider, chain]
   );
 
   return (

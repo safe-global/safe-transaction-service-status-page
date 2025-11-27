@@ -18,13 +18,9 @@ import ChainStatusRow from "src/components/chain-status-table/ChainStatusRow";
 
 type StatusTableProps = {
   configServiceUrl: string;
-  clientGatewayUrl: string;
 };
 
-function ChainStatusTable({
-  configServiceUrl,
-  clientGatewayUrl,
-}: StatusTableProps) {
+function ChainStatusTable({ configServiceUrl }: StatusTableProps) {
   // endpoint to fetch all chains from the config service
   const fetchChains = useCallback(
     (signal: AbortSignal) => {
@@ -35,7 +31,7 @@ function ChainStatusTable({
       }
       return Promise.resolve([]);
     },
-    [configServiceUrl],
+    [configServiceUrl]
   );
 
   const { isLoading, data: chains } = useApi(fetchChains);
@@ -80,11 +76,7 @@ function ChainStatusTable({
         <TableBody>
           {!isLoading &&
             chains?.map((chain) => (
-              <ChainStatusRow
-                key={chain.chainId}
-                chain={chain}
-                clientGatewayUrl={clientGatewayUrl}
-              />
+              <ChainStatusRow key={chain.chainId} chain={chain} />
             ))}
         </TableBody>
       </Table>
