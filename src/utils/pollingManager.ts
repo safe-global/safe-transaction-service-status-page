@@ -1,5 +1,3 @@
-import { MAX_REQUESTS_PER_SECOND } from "src/config/api";
-
 type PollingTask<T = unknown> = {
   id: string;
   apiCall: (signal: AbortSignal) => Promise<T>;
@@ -14,9 +12,6 @@ class PollingManager {
   private tasks: Map<string, PollingTask<unknown>> = new Map();
   private isRunning = false;
   private isPaused = false;
-  private maxRequestsPerSecond = MAX_REQUESTS_PER_SECOND;
-  private minInterval = 1000 / this.maxRequestsPerSecond;
-  private lastRequestTime = 0;
   private visibilityChangeListener: (() => void) | null = null;
 
   constructor() {
@@ -57,59 +52,45 @@ class PollingManager {
     }
   }
 
-  private async executeNextTask(): Promise<void> {
+  private async executeDueTasks(): Promise<void> {
     if (this.isPaused) {
       return;
     }
 
     const now = Date.now();
 
-    // Find the next task that should be executed
-    let nextTask: PollingTask<unknown> | null = null;
-    let earliestDue = Infinity;
+    // Find all tasks that are due for execution
+    const dueTasks: PollingTask<unknown>[] = [];
 
     for (const task of this.tasks.values()) {
       const timeSinceLastExecution = now - task.lastExecuted;
       if (timeSinceLastExecution >= task.pollingInterval) {
-        const dueTime = task.lastExecuted + task.pollingInterval;
-        if (dueTime < earliestDue) {
-          earliestDue = dueTime;
-          nextTask = task;
-        }
+        dueTasks.push(task);
       }
     }
 
-    if (!nextTask) return;
+    if (dueTasks.length === 0) return;
 
-    // Respect rate limiting
-    const timeSinceLastRequest = now - this.lastRequestTime;
-    if (timeSinceLastRequest < this.minInterval) {
-      const delay = this.minInterval - timeSinceLastRequest;
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
+    // Execute all due tasks in parallel
+    const promises = dueTasks.map(async (task) => {
+      try {
+        task.lastExecuted = Date.now();
+        const result = await task.apiCall(task.abortController.signal);
+        task.onSuccess(result);
+      } catch (error) {
+        task.onError(error);
+      }
+    });
 
-    if (this.isPaused) {
-      return;
-    }
-
-    // Execute the task
-    try {
-      this.lastRequestTime = Date.now();
-      nextTask.lastExecuted = this.lastRequestTime;
-
-      const result = await nextTask.apiCall(nextTask.abortController.signal);
-      nextTask.onSuccess(result);
-    } catch (error) {
-      nextTask.onError(error);
-    }
+    await Promise.all(promises);
   }
 
   private async runPollingLoop(): Promise<void> {
     while (this.isRunning && this.tasks.size > 0) {
-      await this.executeNextTask();
+      await this.executeDueTasks();
 
       // Delay to prevent tight loop
-      const delay = this.isPaused ? 1000 : 50;
+      const delay = this.isPaused ? 1000 : 100;
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
     this.isRunning = false;
@@ -183,4 +164,4 @@ class PollingManager {
   }
 }
 
-export default PollingManager;
+export default new PollingManager();
