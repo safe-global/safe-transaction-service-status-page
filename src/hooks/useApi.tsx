@@ -10,7 +10,7 @@ type useApiHookReturnValue<T> = {
 
 function useApi<T>(
   apiCall: apiCallParam<T>,
-  pollingTime?: number
+  pollingTime?: number,
 ): useApiHookReturnValue<T> {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T>();
@@ -40,7 +40,7 @@ function useApi<T>(
         stableApiCall,
         onSuccess,
         onError,
-        pollingTime
+        pollingTime,
       );
     } else {
       // For non-polling requests, execute immediately

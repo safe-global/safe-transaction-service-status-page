@@ -22,13 +22,13 @@ function ChainStatusRow({ chain }: { chain: chain }) {
         signal,
       });
     },
-    [chain]
+    [chain],
   );
 
   // fetch chain status with a polling
   const { isLoading, data } = useApi(
     fetchChainStatus,
-    CHAIN_STATUS_POLLING_INTERVAL
+    CHAIN_STATUS_POLLING_INTERVAL,
   );
   const chainStatus = data;
 
@@ -49,7 +49,7 @@ function ChainStatusRow({ chain }: { chain: chain }) {
       const blockInfo = await memoizedGetBlock(blockNumber, provider, chainId);
       return blockInfo;
     },
-    [provider, chain]
+    [provider, chain],
   );
 
   return (

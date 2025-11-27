@@ -5,7 +5,7 @@ import { API_TIMEOUT } from "src/config/api";
 
 async function getChainStatus(
   chain: chain,
-  options?: RawAxiosRequestConfig
+  options?: RawAxiosRequestConfig,
 ): Promise<chainStatus> {
   const endpoint = `${chain.transactionService}/api/v1/about/indexing`;
 

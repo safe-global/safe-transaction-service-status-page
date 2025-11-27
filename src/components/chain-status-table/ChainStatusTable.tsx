@@ -31,7 +31,7 @@ function ChainStatusTable({ configServiceUrl }: StatusTableProps) {
       }
       return Promise.resolve([]);
     },
-    [configServiceUrl]
+    [configServiceUrl],
   );
 
   const { isLoading, data: chains } = useApi(fetchChains);
