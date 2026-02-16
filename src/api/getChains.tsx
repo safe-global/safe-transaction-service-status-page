@@ -8,11 +8,17 @@ async function getChains(
   configServiceBaseUrl: string,
   options?: RawAxiosRequestConfig,
 ): Promise<chain[]> {
-  const endpoint = `${configServiceBaseUrl}${CHAINS_PATHNAME}`;
+  let allChains: chain[] = [];
+  let nextUrl: string | null = `${configServiceBaseUrl}${CHAINS_PATHNAME}`;
 
-  const { data } = await axios.get(endpoint, options);
+  while (nextUrl) {
+    const { data } = await axios.get(nextUrl, options);
 
-  return data.results;
+    allChains = allChains.concat(data.results);
+    nextUrl = data.next;
+  }
+
+  return allChains;
 }
 
 export default getChains;
