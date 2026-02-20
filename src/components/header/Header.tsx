@@ -57,7 +57,7 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
                 </Link>
               </NavListItem>
 
-              {/* Developes Docs Link */}
+              {/* Developers Docs Link */}
               <NavListItem>
                 <Link
                   href="https://docs.safe.global/"
@@ -72,11 +72,11 @@ function Header({ switchThemeMode, isDarkTheme }: HeaderProps) {
               {/* Support tickets Link */}
               <NavListItem>
                 <Link
-                  href="https://github.com/5afe/safe-support/issues"
+                  href="https://help.safe.global/"
                   color="inherit"
                   underline="hover"
                 >
-                  <Typography>Support tickets</Typography>
+                  <Typography>Support</Typography>
                 </Link>
               </NavListItem>
             </NavList>
